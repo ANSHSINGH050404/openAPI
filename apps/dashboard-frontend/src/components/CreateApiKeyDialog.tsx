@@ -59,36 +59,38 @@ export function CreateApiKeyDialog({ onSuccess }: CreateApiKeyDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(val) => !val && handleClose()}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>
+        <Button size="sm" className="h-9">
           <Plus className="mr-2 h-4 w-4" /> Create New Key
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         {!newKey ? (
           <form onSubmit={handleSubmit}>
-            <DialogHeader>
+            <DialogHeader className="pb-2">
               <DialogTitle>Create API Key</DialogTitle>
               <DialogDescription>
                 Enter a name for your new API key to track its usage.
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="col-span-3"
-                  placeholder="e.g. My App"
-                  required
-                />
-              </div>
+            <div className="py-4">
+              <Label htmlFor="name" className="text-sm font-medium mb-2 block">
+                Key Name
+              </Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. My Application"
+                required
+                className="bg-background/50"
+              />
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={isLoading}>
+              <Button
+                type="submit"
+                disabled={isLoading || !name.trim()}
+                className="w-full"
+              >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create Key
               </Button>
@@ -96,20 +98,44 @@ export function CreateApiKeyDialog({ onSuccess }: CreateApiKeyDialogProps) {
           </form>
         ) : (
           <>
-            <DialogHeader>
-              <DialogTitle>Save your API Key</DialogTitle>
+            <DialogHeader className="pb-2">
+              <DialogTitle className="flex items-center gap-2">
+                <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <svg
+                    className="h-4 w-4 text-green-500"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                API Key Created
+              </DialogTitle>
               <DialogDescription>
                 Please copy your API key now. You won't be able to see it again!
               </DialogDescription>
             </DialogHeader>
-            <div className="flex items-center gap-2 p-4 bg-muted rounded-md mt-4 break-all">
-              <code className="text-sm flex-1">{newKey}</code>
-              <Button variant="ghost" size="icon" onClick={handlCopy}>
+            <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg mt-2 break-all border border-border/50">
+              <code className="text-sm flex-1 font-mono">{newKey}</code>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handlCopy}
+                className="shrink-0"
+              >
                 <Copy className="h-4 w-4" />
               </Button>
             </div>
-            <DialogFooter>
-              <Button onClick={handleClose}>Done</Button>
+            <DialogFooter className="mt-4">
+              <Button onClick={handleClose} className="w-full">
+                Done
+              </Button>
             </DialogFooter>
           </>
         )}

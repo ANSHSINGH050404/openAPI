@@ -62,45 +62,74 @@ export function ApiKeyList({ keys, onRefresh }: ApiKeyListProps) {
 
   if (keys.length === 0) {
     return (
-      <div className="text-center py-10 text-muted-foreground border rounded-md">
-        No API keys found. Create one to get started.
+      <div className="text-center py-12 px-4 border border-dashed rounded-xl text-muted-foreground bg-muted/20">
+        <div className="flex flex-col items-center gap-2">
+          <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-2">
+            <svg
+              className="h-6 w-6 text-muted-foreground"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
+            </svg>
+          </div>
+          <p className="font-medium">No API keys yet</p>
+          <p className="text-sm">Create your first API key to get started</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="border rounded-md">
-      <div className="grid grid-cols-12 gap-4 p-4 border-b bg-muted/50 font-medium text-sm">
-        <div className="col-span-4">Name</div>
-        <div className="col-span-3">Usage (Credits)</div>
-        <div className="col-span-3">Last Used</div>
-        <div className="col-span-1">Status</div>
-        <div className="col-span-1 text-right">Actions</div>
-      </div>
+    <div className="space-y-3">
       {keys.map((key) => (
         <div
           key={key.id}
-          className="grid grid-cols-12 gap-4 p-4 border-b last:border-0 items-center text-sm"
+          className="flex items-center justify-between p-4 rounded-xl border border-border/50 bg-card/50 hover:bg-card/80 transition-colors"
         >
-          <div className="col-span-4 font-medium">{key.name}</div>
-          <div className="col-span-3">{key.creditsConsumed}</div>
-          <div className="col-span-3">
-            {key.lastUsed
-              ? new Date(key.lastUsed).toLocaleDateString()
-              : "Never"}
+          <div className="flex items-center gap-4">
+            <div
+              className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                key.disabled ? "bg-muted" : "bg-primary/10"
+              }`}
+            >
+              <svg
+                className={`h-5 w-5 ${key.disabled ? "text-muted-foreground" : "text-primary"}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                />
+              </svg>
+            </div>
+            <div>
+              <p className="font-medium">{key.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {key.creditsConsumed} credits used
+              </p>
+            </div>
           </div>
-          <div className="col-span-1">
+          <div className="flex items-center gap-3">
             <span
-              className={`px-2 py-1 rounded-full text-xs ${
+              className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                 key.disabled
-                  ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-                  : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                  ? "bg-red-500/10 text-red-500"
+                  : "bg-green-500/10 text-green-500"
               }`}
             >
               {key.disabled ? "Disabled" : "Active"}
             </span>
-          </div>
-          <div className="col-span-1 text-right">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
@@ -109,7 +138,6 @@ export function ApiKeyList({ keys, onRefresh }: ApiKeyListProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => toggleStatus(key)}
                   disabled={loadingId === key.id}
@@ -123,7 +151,7 @@ export function ApiKeyList({ keys, onRefresh }: ApiKeyListProps) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  className="text-red-600 focus:text-red-600"
+                  className="text-destructive focus:text-destructive"
                   onClick={() => deleteKey(key.id)}
                   disabled={loadingId === key.id}
                 >
