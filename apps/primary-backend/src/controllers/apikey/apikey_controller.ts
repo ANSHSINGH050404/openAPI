@@ -1,34 +1,32 @@
-import type { Request, Response } from "express";
+import { type Request, type Response } from "express";
 import { ApikeyService } from "../../services/apikey";
 import { prisma } from "db";
+
 
 export const getApiKeys = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
-    const apiKey = await prisma.apiKey.findMany({
-      where: {
-        userId: userId,
-      },    
-    });
-    return apiKey.map((key) => {
-      return {
-        id: key.id,
-        name: key.name,
-        creditsConsumed: key.creditsConsumed,
-        lastUsed: key.lastUsed,
-      };
+
+    if (!userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    const apiKeys = await prisma.apiKey.findMany({
+      where: { userId },
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Apikeys fetched successfully",
-      data: apiKey,
-    });
+    const formattedKeys = apiKeys.map((key) => ({
+      id: key.id,
+      name: key.name,
+      creditsConsumed: key.creditsConsumed,
+      lastUsed: key.lastUsed,
+      disabled: key.disabled 
+    }));
+
+    return res.status(200).json({ success: true, data: formattedKeys });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+    console.error("Get API Keys Error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -60,55 +58,84 @@ export const createApiKey = async (req: Request, res: Response) => {
 
 
 export const disableApiKey = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const { id } = req.body;
 
-    const {userId} =req.user;
-    const {apiKeyId} = req.body;
-
-
-    if(!userId || !apiKeyId){
-        return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!userId || !id) {
+      return res.status(400).json({ success: false, message: "Missing ID" });
     }
 
     const result = await prisma.apiKey.update({
-        where: {
-            id: apiKeyId,
-            userId:userId,
-        },
-        data:{
-            disabled:true,
-        }
+      where: {
+        id: Number(id),
+        userId: userId, 
+      },
+      data: { disabled: true },
     });
 
     return res.status(200).json({
-        success: true,
-        message: "Apikey disabled successfully",
-        data: result,
+      success: true,
+      message: "API Key disabled successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Disable API Key Error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+
+export const enableApiKey = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const { id } = req.body;
+
+    if (!userId || !id) {
+      return res.status(400).json({ success: false, message: "Missing ID" });
+    }
+
+    const result = await prisma.apiKey.update({
+      where: {
+        id: Number(id),
+        userId: userId, 
+      },
+      data: { disabled: false },
     });
 
-    
-
+    return res.status(200).json({
+      success: true,
+      message: "API Key enabled successfully",
+      data: result,
+    });
+  } catch (error) {
+    console.error("Enable API Key Error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };
 
 export const deleteApiKey = async (req: Request, res: Response) => {
-    const {id} = req.params;
-    const {userId} = req.user;
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id;
 
-    if(!userId || !id){
-        return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!userId || !id) {
+      return res.status(400).json({ success: false, message: "Unauthorized or missing ID" });
     }
 
-    const result = await prisma.apiKey.delete({
-        where: {
-            id: Number(id),
-            userId:userId,
-        },
+    await prisma.apiKey.delete({
+      where: {
+        id: Number(id), 
+        userId: userId,
+      },
     });
 
     return res.status(200).json({
-        success: true,
-        message: "Apikey deleted successfully",
-        data: result,
+      success: true,
+      message: "API Key deleted successfully",
     });
-
-    
+  } catch (error) {
+    console.error("Delete API Key Error:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };
