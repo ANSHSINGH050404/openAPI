@@ -1,18 +1,23 @@
-import type { Messages } from "../types";
-
-export type { Messages };
+import type { Messages } from "../schemas/conversation";
 
 export type LlmResponse = {
-  content: string;
-  model: string;
-  provider: string;
+  completions: {
+    choices: {
+      message: {
+        content: string;
+      };
+    }[];
+  };
+
   inputTokensConsumed: number;
   outputTokensConsumed: number;
-  finishReason?: string | null;
+  totalTokensConsumed: number;
+  model?: string;
+  provider?: string;
 };
 
-export class BaseLlm {
-  async chat(model: string, messages: Messages): Promise<LlmResponse> {
-    throw new Error("Not implemented chat function");
+export abstract class BaseLlm {
+  static async chat(model: string, messages: Messages): Promise<LlmResponse> {
+    throw new Error("Not implemented");
   }
 }
