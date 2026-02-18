@@ -37,13 +37,22 @@ export const chatCompletion = async (
 
   let response = null;
 
-  if (provider.provider.name === "Google API")
+  if (provider.provider.name === "Google AI") {
     response = await Gemini.chat(providerModelName, messages);
+  }
 
-  if (provider.provider.name === "OpenAI")
+  if (provider.provider.name === "OpenAI") {
     response = await OpenAi.chat(providerModelName, messages);
+  }
 
-  if (!response) return res.status(500).json({ message: "Provider failed" });
+  if (!response)
+    return res.status(500).json({
+      message: "Provider failed",
+      debug: {
+        providerName: provider.provider.name,
+        modelRequested: providerModelName,
+      },
+    });
 
   // cost calculation
   const creditsUsed =
