@@ -5,6 +5,7 @@ import SignupPage from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import ModelsPage from "@/pages/Models";
 import DocsPage from "@/pages/Docs";
+import HomePage from "@/pages/Home";
 import Layout from "@/components/Layout";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import "./index.css";
@@ -61,22 +62,23 @@ function AppRoutes() {
         }
       />
 
+      <Route path="/" element={<HomePage />} />
+      <Route path="/docs" element={<DocsPage />} />
+
       <Route
-        path="/"
+        path="/dashboard"
         element={
           <ProtectedRoute>
             <Layout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route index element={<Dashboard />} />
         <Route path="models" element={<ModelsPage />} />
         <Route path="docs" element={<DocsPage />} />
-        {/* Add more routes like /dashboard/keys here if needed, but for now Dashboard has keys */}
       </Route>
 
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

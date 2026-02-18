@@ -70,7 +70,10 @@ export const chatCompletion = async (
 
   await prisma.apiKey.update({
     where: { apiKey },
-    data: { creditsConsumed: { increment: creditsUsed } },
+    data: {
+      creditsConsumed: { increment: creditsUsed },
+      totalTokens: { increment: response.totalTokensConsumed },
+    },
   });
 
   res.json(response);

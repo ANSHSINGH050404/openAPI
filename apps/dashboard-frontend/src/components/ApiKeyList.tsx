@@ -19,6 +19,7 @@ interface ApiKey {
   lastUsed: string | null;
   disabled: boolean;
   apiKey: string;
+  totalTokens: number;
 }
 
 interface ApiKeyListProps {
@@ -117,7 +118,8 @@ export function ApiKeyList({ keys, onRefresh }: ApiKeyListProps) {
             <div>
               <p className="font-medium">{key.name}</p>
               <p className="text-sm text-muted-foreground">
-                {key.creditsConsumed} credits used
+                {key.creditsConsumed} credits used • {key.totalTokens ?? 0}{" "}
+                tokens
               </p>
             </div>
           </div>

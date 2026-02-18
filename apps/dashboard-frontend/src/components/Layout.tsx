@@ -25,8 +25,8 @@ export default function Layout() {
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
-    { name: "Models", href: "/models", icon: Box },
-    { name: "Docs", href: "/docs", icon: Book },
+    { name: "Models", href: "/dashboard/models", icon: Box },
+    { name: "Docs", href: "/dashboard/docs", icon: Book },
   ];
 
   return (
@@ -50,7 +50,7 @@ export default function Layout() {
                 />
               </svg>
             </div>
-            <span>OpenRouter</span>
+            <span>OpenAPI</span>
           </Link>
         </div>
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
@@ -95,7 +95,7 @@ export default function Layout() {
       <div className="flex flex-1 flex-col md:ml-64 transition-all duration-300">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border/50 bg-background/60 px-6 backdrop-blur-xl">
           <div className="flex items-center gap-2 font-bold text-xl md:hidden">
-            <span>OpenRouter</span>
+            <span>OpenAPI</span>
           </div>
           <div className="ml-auto flex items-center gap-4">
             <div className="flex items-center gap-2 rounded-full bg-muted/50 px-3 py-1.5 text-sm">

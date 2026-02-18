@@ -68,7 +68,7 @@ print(completion.choices[0].message)`;
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Documentation</h1>
         <p className="text-muted-foreground mt-1">
-          Learn how to integrate OpenRouter into your applications
+          Learn how to integrate OpenAPI into your applications
         </p>
       </div>
 
@@ -76,7 +76,7 @@ print(completion.choices[0].message)`;
         <CardHeader>
           <CardTitle>Getting Started</CardTitle>
           <CardDescription>
-            OpenRouter provides an OpenAI-compatible API, making it easy to use
+            OpenAPI provides an OpenAI-compatible API, making it easy to use
             with existing libraries.
           </CardDescription>
         </CardHeader>

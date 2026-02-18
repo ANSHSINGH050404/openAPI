@@ -25,6 +25,7 @@ export const getApiKeys = async (req: Request, res: Response) => {
       lastUsed: key.lastUsed,
       disabled: key.disabled,
       apiKey: key.apiKey,
+      totalTokens: key.totalTokens,
     }));
 
     return res.status(200).json({ success: true, data: formattedKeys });
