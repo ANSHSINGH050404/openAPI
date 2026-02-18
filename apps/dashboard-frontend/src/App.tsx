@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import LoginPage from "@/pages/Login";
 import SignupPage from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
+import ModelsPage from "@/pages/Models";
 import Layout from "@/components/Layout";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import "./index.css";
@@ -69,6 +70,7 @@ function AppRoutes() {
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="models" element={<ModelsPage />} />
         {/* Add more routes like /dashboard/keys here if needed, but for now Dashboard has keys */}
       </Route>
 

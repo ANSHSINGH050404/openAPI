@@ -1,7 +1,15 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Key, CreditCard, Settings, Menu } from "lucide-react";
+import {
+  LogOut,
+  Home,
+  Key,
+  CreditCard,
+  Settings,
+  Menu,
+  Box,
+} from "lucide-react";
 import { useState } from "react";
 
 export default function Layout() {
@@ -14,7 +22,10 @@ export default function Layout() {
     navigate("/login");
   };
 
-  const navItems = [{ name: "Dashboard", href: "/dashboard", icon: Home }];
+  const navItems = [
+    { name: "Dashboard", href: "/dashboard", icon: Home },
+    { name: "Models", href: "/models", icon: Box },
+  ];
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">

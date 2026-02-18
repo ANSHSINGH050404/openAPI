@@ -20,6 +20,7 @@ interface AuthContextType {
   login: (token: string, user: User) => void;
   logout: () => void;
   isLoading: boolean;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,17 +32,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
   const [isLoading, setIsLoading] = useState(true);
 
+  const refreshUser = async () => {
+    if (token) {
+      try {
+        const res = await api.get("/auth/profile");
+        setUser(res.data);
+      } catch (error) {
+        console.error("Auth check failed", error);
+        logout();
+      }
+    }
+  };
+
   useEffect(() => {
     const initAuth = async () => {
-      if (token) {
-        try {
-          const res = await api.get("/auth/profile");
-          setUser(res.data);
-        } catch (error) {
-          console.error("Auth check failed", error);
-          logout();
-        }
-      }
+      await refreshUser();
       setIsLoading(false);
     };
 
@@ -61,7 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, isLoading, refreshUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

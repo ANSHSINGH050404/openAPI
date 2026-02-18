@@ -3,14 +3,13 @@ import { CreateApiKeyDialog } from "@/components/CreateApiKeyDialog";
 import { ApiKeyList } from "@/components/ApiKeyList";
 import api from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Loader2, Plus } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Dashboard() {
   const [keys, setKeys] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
-
   const fetchKeys = async () => {
     try {
       const { data } = await api.get("/apikey");
@@ -21,6 +20,22 @@ export default function Dashboard() {
       console.error("Failed to fetch keys", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const [isAddingCredits, setIsAddingCredits] = useState(false);
+  const { user, refreshUser } = useAuth();
+
+  const handleAddCredits = async () => {
+    setIsAddingCredits(true);
+    try {
+      await api.post("/payments/onramp");
+      await refreshUser();
+      // toast.success("Credits added successfully"); // toast is not imported yet, adding locally or just relying on refresh
+    } catch (error) {
+      console.error("Failed to add credits", error);
+    } finally {
+      setIsAddingCredits(false);
     }
   };
 
@@ -60,7 +75,22 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{user?.credits ?? 0}</div>
+            <div className="flex items-center gap-4">
+              <div className="text-3xl font-bold">{user?.credits ?? 0}</div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleAddCredits}
+                disabled={isAddingCredits}
+              >
+                {isAddingCredits ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Plus className="h-4 w-4 mr-1" />
+                )}
+                Add Credits
+              </Button>
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               Available for API usage
             </p>

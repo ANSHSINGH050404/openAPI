@@ -24,7 +24,7 @@ export const getApiKeys = async (req: Request, res: Response) => {
       creditsConsumed: key.creditsConsumed,
       lastUsed: key.lastUsed,
       disabled: key.disabled,
-      
+      apiKey: key.apiKey,
     }));
 
     return res.status(200).json({ success: true, data: formattedKeys });
@@ -35,7 +35,6 @@ export const getApiKeys = async (req: Request, res: Response) => {
       .json({ success: false, message: "Internal server error" });
   }
 };
-
 
 export const createApiKey = async (req: Request, res: Response) => {
   try {

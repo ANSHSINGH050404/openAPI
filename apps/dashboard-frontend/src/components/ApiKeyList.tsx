@@ -18,6 +18,7 @@ interface ApiKey {
   creditsConsumed: number;
   lastUsed: string | null;
   disabled: boolean;
+  apiKey: string;
 }
 
 interface ApiKeyListProps {
@@ -138,6 +139,16 @@ export function ApiKeyList({ keys, onRefresh }: ApiKeyListProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                  onClick={() => {
+                    navigator.clipboard.writeText(key.apiKey);
+                    toast.success("API Key copied to clipboard");
+                  }}
+                >
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy Key
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => toggleStatus(key)}
                   disabled={loadingId === key.id}
