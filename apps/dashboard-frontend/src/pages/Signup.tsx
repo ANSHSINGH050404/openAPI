@@ -45,27 +45,43 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-sm shadow-xl">
+        <CardHeader className="space-y-1 text-center pb-2">
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <svg
+              className="h-6 w-6 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
+          </div>
+          <CardTitle className="text-2xl font-bold tracking-tight">
             Create an account
           </CardTitle>
-          <CardDescription className="text-center">
-            Enter your information below to create your account
+          <CardDescription className="text-muted-foreground">
+            Enter your email and password to get started
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="name@example.com"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-background/50"
               />
             </div>
             <div className="space-y-2">
@@ -76,25 +92,27 @@ export default function SignupPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="bg-background/50"
+                placeholder="••••••••"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full h-10" disabled={isLoading}>
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Sign up"
+                "Create account"
               )}
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="justify-center">
+        <CardFooter className="justify-center pb-6">
           <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-medium text-primary hover:underline"
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
             >
-              Login
+              Sign in
             </Link>
           </p>
         </CardFooter>

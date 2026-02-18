@@ -29,32 +29,68 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
-        <div className="flex items-center space-x-2"></div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Manage your API keys and credits
+          </p>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-primary/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Credits</CardTitle>
+            <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
+              <svg
+                className="h-4 w-4 text-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{user?.credits ?? 0}</div>
-            <p className="text-xs text-muted-foreground">Available for use</p>
+            <div className="text-3xl font-bold">{user?.credits ?? 0}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Available for API usage
+            </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-border/50 bg-gradient-to-br from-green-500/5 to-green-500/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Keys</CardTitle>
+            <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
+              <svg
+                className="h-4 w-4 text-green-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                />
+              </svg>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-3xl font-bold">
               {keys.filter((k: any) => !k.disabled).length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Operational API keys
+            <p className="text-xs text-muted-foreground mt-1">
+              Active API keys
             </p>
           </CardContent>
         </Card>

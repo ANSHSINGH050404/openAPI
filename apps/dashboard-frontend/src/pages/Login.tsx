@@ -45,45 +45,57 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">
-            Login
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-sm shadow-xl">
+        <CardHeader className="space-y-1 text-center pb-2">
+          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+            <svg
+              className="h-6 w-6 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
+            </svg>
+          </div>
+          <CardTitle className="text-2xl font-bold tracking-tight">
+            Welcome back
           </CardTitle>
-          <CardDescription className="text-center">
-            Enter your email below to login to your account
+          <CardDescription className="text-muted-foreground">
+            Enter your credentials to access your account
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="name@example.com"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="bg-background/50"
               />
             </div>
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link to="#" className="text-sm text-primary hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="bg-background/50"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full h-10" disabled={isLoading}>
               {isLoading ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
@@ -92,12 +104,12 @@ export default function LoginPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="justify-center">
+        <CardFooter className="justify-center pb-6">
           <p className="text-sm text-muted-foreground">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="font-medium text-primary hover:underline"
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
             >
               Sign up
             </Link>
