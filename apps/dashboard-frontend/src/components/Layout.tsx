@@ -3,7 +3,6 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogOut, Home, Key, CreditCard, Settings, Menu } from "lucide-react";
 import { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; // Assuming I might need this for mobile, but I'll skip sheet for now and just hide sidebar on mobile or use simple toggle
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -50,13 +49,10 @@ export default function Layout() {
         <div className="p-4 border-t">
           <div className="flex items-center gap-3 mb-4 px-2">
             <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-              {user?.name?.[0]?.toUpperCase() || "U"}
+              {user?.email?.[0]?.toUpperCase() || "U"}
             </div>
             <div className="overflow-hidden">
-              <p className="truncate text-sm font-medium">{user?.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {user?.email}
-              </p>
+              <p className="truncate text-sm font-medium">{user?.email}</p>
             </div>
           </div>
           <Button

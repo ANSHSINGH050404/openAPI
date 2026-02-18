@@ -9,9 +9,9 @@ import api from "../lib/api";
 import { useNavigate } from "react-router-dom";
 
 interface User {
-  id: string;
+  id: string; // or number, prisma uses Int
   email: string;
-  name: string;
+  credits: number;
 }
 
 interface AuthContextType {
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (token) {
         try {
           const res = await api.get("/auth/profile");
-          setUser(res.data.user);
+          setUser(res.data);
         } catch (error) {
           console.error("Auth check failed", error);
           logout();

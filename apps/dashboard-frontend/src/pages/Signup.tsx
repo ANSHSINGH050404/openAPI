@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 export default function SignupPage() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +27,6 @@ export default function SignupPage() {
 
     try {
       const { data } = await api.post("/auth/signup", {
-        name,
         email,
         password,
       });
@@ -59,16 +57,6 @@ export default function SignupPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="John Doe"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
