@@ -9,6 +9,7 @@ import {
   Settings,
   Menu,
   Box,
+  Book,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -25,6 +26,7 @@ export default function Layout() {
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "Models", href: "/models", icon: Box },
+    { name: "Docs", href: "/docs", icon: Book },
   ];
 
   return (
